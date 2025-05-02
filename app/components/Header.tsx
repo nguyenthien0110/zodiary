@@ -1,11 +1,19 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { TbZodiacLibra } from "react-icons/tb";
 
 const Header = () => {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <header
@@ -14,12 +22,22 @@ const Header = () => {
     >
       <div className="flex items-center justify-between px-6 py-4">
         <div className="text-xl font-bold tracking-wide uppercase flex justify-center items-center gap-4">
-          <TbZodiacLibra size={30}/> Zodiary
+          <TbZodiacLibra size={30} />
+          <motion.div
+            className="font-bold text-xl tracking-wide uppercase bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-[length:200%_auto] bg-clip-text text-transparent"
+            animate={{ backgroundPosition: ["0% 0%", "100% 0%", "0% 0%"] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          >
+            Zodiary
+          </motion.div>
         </div>
       </div>
       <div className="overflow-hidden h-8 bg-gray-900">
         <motion.div
-          style={{ x }}
+          animate={isMobile ? { x: ["100%", "-100%"] } : { x: 0 }}
+          transition={
+            isMobile ? { repeat: Infinity, duration: 20, ease: "linear" } : {}
+          }
           className="whitespace-nowrap text-sm font-medium py-1 px-4"
         >
           12 Chòm Sao - Bí Ẩn Chiêm Tinh - Tình Yêu & Tính Cách - Bạch Dương,
