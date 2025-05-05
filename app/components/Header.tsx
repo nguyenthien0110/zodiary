@@ -34,7 +34,7 @@ const Header = () => {
       </div>
       <div className="overflow-hidden h-8 bg-gray-900">
         <motion.div
-          animate={isMobile ? { x: ["100%", "-100%"] } : { x: 0 }}
+          animate={isMobile ? { x: ["100%", "-280%"] } : { x: 0 }}
           transition={
             isMobile ? { repeat: Infinity, duration: 20, ease: "linear" } : {}
           }
